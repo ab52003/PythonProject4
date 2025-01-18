@@ -2,18 +2,25 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 import asyncio
 
 api = ''
 bot = Bot(token = api)
 dp = Dispatcher(bot, storage=MemoryStorage())
 
+kb = ReplyKeyboardMarkup(resize_keyboard=True)
+button1 = KeyboardButton(text='Рассчитать')
+button2 = KeyboardButton(text='Информация')
+kb.add(button1)
+kb.add(button2)
+
 class UserState(StatesGroup):
     age = State()
     growth = State()
     weight = State()
 
-@dp.message_handler(text = ['Calories'])
+@dp.message_handler(text = ['Рассчитать'])
 async def set_age(message):
     await message.answer('Введите свой возраст:')
     await UserState.age.set()
@@ -43,7 +50,12 @@ async def set_calories(message, state):
 @dp.message_handler(commands = ['start'])
 async def start(message):
     #print('Привет! Я бот помогающий твоему здоровью.')
-    await message.answer('Привет! Я бот помогающий твоему здоровью.')
+    #await message.answer('Привет! Я бот помогающий твоему здоровью.')
+    await message.answer('Привет!', reply_markup=kb)
+
+@dp.message_handler(text = ['Информация'])
+async def inform(message):
+    await message.answer('Информация о боте')
 
 @dp.message_handler()
 async def all_massages(message):
