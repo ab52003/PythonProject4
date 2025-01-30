@@ -71,7 +71,15 @@ async def set_calories(message, state):
 async def get_buying_list(message):
     for number in range(1, 5):
         price = number * 100
-        await message.answer(f'Название: Product {number} | Описание: описание {number} | Цена: {price}')
+        if number == 1:
+            des = 'коврик'
+        elif number == 2:
+            des = 'куртка'
+        elif number == 3:
+            des = 'спальник'
+        elif number == 4:
+            des = 'рюкзак'
+        await message.answer(f'Название: Product {number} | Описание: {des} | Цена: {price}')
         with open(f'{number}.jpg', 'rb') as img:
             await message.answer_photo(img)
     await message.answer('Выберите продукт для покупки:', reply_markup=kb1)
