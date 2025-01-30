@@ -27,6 +27,7 @@ def initiate_db():
                    ("Product3", "спальник", "300"))
     cursor.execute("INSERT INTO Products (title, description, price) VALUES (?, ?, ?)",
                    ("Product4", "рюкзак", "400"))
+    connection.commit()
 
 initiate_db()
 
@@ -120,7 +121,6 @@ async def inform(message):
 async def all_massages(message):
     await message.answer('Введите команду /start, чтобы начать общение.')
 
-connection.commit()
 connection.close()
 
 if __name__ == "__main__":
